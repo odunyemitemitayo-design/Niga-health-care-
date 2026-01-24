@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'https://esm.sh/react@^19.2.3';
 import { Hospital } from '../types';
 import { getHospitalSummary, getEmergencyGuidance, getFacilityOverview } from '../services/geminiService';
 
@@ -91,7 +91,7 @@ const HospitalDetail: React.FC<HospitalDetailProps> = ({ hospital, onClose }) =>
 
             {/* Description & AI Insight */}
             <section className="bg-white p-10 rounded-lg border border-slate-100 shadow-sm">
-              <h2 className="text-3xl font-bold text-teal-950 mb-8 tracking-tight text-slate-700">Facility Overview</h2>
+              <h2 className="text-3xl font-bold text-teal-950 mb-8 tracking-tight">Facility Overview</h2>
               <div className="bg-teal-50 border-l-4 border-teal-500 p-8 rounded-lg mb-10 shadow-inner">
                 <h4 className="flex items-center gap-2 text-teal-900 font-bold mb-4 uppercase tracking-widest text-xs">
                   <svg className="w-5 h-5 text-teal-600" fill="currentColor" viewBox="0 0 20 20"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" /></svg>
@@ -175,7 +175,7 @@ const HospitalDetail: React.FC<HospitalDetailProps> = ({ hospital, onClose }) =>
             <div className="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm">
               <div className="h-56 bg-slate-100 flex items-center justify-center relative group">
                 <div className="absolute inset-0 bg-teal-600/5 group-hover:bg-teal-600/10 transition-colors" />
-                <svg className="w-16 h-16 text-teal-600/30" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/></svg>
+                <svg className="w-16 h-16 text-teal-600/30" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/></svg>
                 <div className="absolute bottom-6 px-6 w-full">
                   <button className="w-full bg-white text-teal-950 text-xs font-bold py-3 rounded-lg shadow-xl border border-slate-100 hover:bg-slate-50 transition-colors uppercase tracking-widest">Launch Navigation</button>
                 </div>

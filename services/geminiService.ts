@@ -1,5 +1,5 @@
 
-import { GoogleGenAI, Modality } from "@google/genai";
+import { GoogleGenAI, Modality } from "https://esm.sh/@google/genai@^1.38.0";
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
 

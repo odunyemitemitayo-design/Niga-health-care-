@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'https://esm.sh/react@^19.2.3';
 
 interface RegistrationModalProps {
   isOpen: boolean;
