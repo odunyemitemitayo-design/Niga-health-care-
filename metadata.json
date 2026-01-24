@@ -1,0 +1,8 @@
+{
+  "name": "NaijaHealth Reviews",
+  "description": "A high-end, minimalist hospital and doctor review platform for Nigeria, helping citizens find trustworthy care with real-time metrics on quality, wait times, and costs.",
+  "requestFramePermissions": [
+    "geolocation",
+    "microphone"
+  ]
+}
