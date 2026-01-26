@@ -6,30 +6,18 @@ import BottomNav from './components/BottomNav';
 import HospitalCard from './components/HospitalCard';
 import DoctorCard from './components/DoctorCard';
 import HospitalDetail from './components/HospitalDetail';
-import VoiceSearch from './components/VoiceSearch';
+import DoctorDetail from './components/DoctorDetail';
 import AIAssistant from './components/AIAssistant';
 import RegistrationModal from './components/RegistrationModal';
+import AboutPage from './about';
+import PrivacyPage from './privacy';
+import TermsPage from './terms';
+import ContactPage from './contact';
 import { HOSPITALS, DOCTORS } from './data';
-import { Hospital } from './types';
+import { Hospital, Doctor } from './types';
 import { calculateDistance, Coords, formatDistance } from './utils/location';
 import { getVoiceGuidance } from './services/geminiService';
 import { decodeBase64, decodeAudioData } from './utils/audio';
-
-const AboutPage = () => (
-  <div className="pt-40 pb-20 px-4 max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500 text-slate-700">
-    <h1 className="text-6xl font-bold text-teal-950 mb-10 text-center tracking-tight serif-heading leading-tight">Empowering Healthcare Transparency</h1>
-    <div className="prose prose-lg text-slate-600 mx-auto leading-relaxed">
-      <p className="mb-8 text-xl text-slate-500 font-light text-center">
-        NaijaHealth is Nigeria's first high-end, data-driven platform designed to bring accountability to medical care. 
-      </p>
-      <div className="bg-white p-16 rounded-[40px] border border-slate-100 my-16 shadow-2xl shadow-teal-900/5 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-3 h-full bg-teal-600"></div>
-        <h2 className="text-[10px] font-bold text-teal-600 mb-8 uppercase tracking-[0.5em]">Our Legacy</h2>
-        <p className="text-teal-950 italic text-3xl serif-heading leading-snug">"Data is the ultimate medicine for systemic inefficiency."</p>
-      </div>
-    </div>
-  </div>
-);
 
 interface AddReviewPageProps {
   isLoggedIn: boolean;
@@ -120,6 +108,7 @@ const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('home');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedHospital, setSelectedHospital] = useState<Hospital | null>(null);
+  const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
   const [isLocating, setIsLocating] = useState(false);
   const [userCoords, setUserCoords] = useState<Coords | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -180,6 +169,12 @@ const App: React.FC = () => {
     return results.sort((a, b) => (a.distance ?? Infinity) - (b.distance ?? Infinity) || b.rating - a.rating);
   }, [searchQuery, userCoords]);
 
+  const filteredDoctors = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return DOCTORS.slice(0, 3);
+    return DOCTORS.filter(d => [d.name, d.specialty, d.title].join(' ').toLowerCase().includes(q));
+  }, [searchQuery]);
+
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
     setCurrentPage('home');
@@ -189,6 +184,9 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (currentPage) {
       case 'about': return <AboutPage />;
+      case 'privacy': return <PrivacyPage />;
+      case 'terms': return <TermsPage />;
+      case 'contact': return <ContactPage />;
       case 'add-review': return <AddReviewPage isLoggedIn={isLoggedIn} onNavigateToAuth={() => setCurrentPage('auth')} />;
       case 'auth': return (
         <div className="pt-24 min-h-screen bg-slate-50 flex items-center justify-center p-4">
@@ -231,22 +229,56 @@ const App: React.FC = () => {
       );
       case 'hospitals': return (
         <div className="pt-40 pb-24 px-4 max-w-7xl mx-auto animate-in fade-in duration-700">
-          <h1 className="text-5xl font-bold text-teal-950 mb-16 tracking-tight serif-heading">Healthcare Directory</h1>
+          <h1 className="text-5xl font-bold text-teal-950 mb-16 tracking-tight serif-heading">Medical Directory</h1>
           <div className="flex flex-col md:flex-row gap-16">
             <aside className="w-full md:w-80 space-y-12">
               <div className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm space-y-8">
                 <div className="space-y-4">
                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">Global Search</label>
-                   <input type="text" placeholder="Specialties, names..." className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                   <input type="text" placeholder="Hospitals, doctors, specialties..." className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
                 </div>
                 <button onClick={handleQuickHelp} className="w-full flex items-center justify-center gap-3 py-5 rounded-2xl border-2 border-teal-600 text-teal-700 text-xs font-bold uppercase tracking-[0.2em] transition-all hover:bg-teal-50">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                   Find Near Me
                 </button>
               </div>
+
+              <div className="bg-teal-950 p-10 rounded-[40px] text-white">
+                <h3 className="text-lg font-bold serif-heading mb-4">Elite Practitioners</h3>
+                <p className="text-xs text-teal-400 font-medium mb-8">Access verified specialists with record-breaking outcomes.</p>
+                <div className="space-y-6">
+                  {DOCTORS.slice(0, 2).map(d => (
+                    <div key={d.id} onClick={() => setSelectedDoctor(d)} className="flex items-center gap-4 cursor-pointer group">
+                      <img src={d.imageUrl} className="w-10 h-10 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all" />
+                      <div>
+                        <p className="text-xs font-bold">{d.name}</p>
+                        <p className="text-[10px] text-teal-500 font-bold uppercase tracking-widest">{d.specialty}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </aside>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 flex-grow">
-              {filteredHospitals.map(h => <HospitalCard key={h.id} hospital={h} onClick={setSelectedHospital} />)}
+            <div className="flex-grow space-y-16">
+              <section>
+                <h2 className="text-2xl font-bold text-teal-950 mb-8 uppercase tracking-[0.2em] flex items-center gap-4">
+                  Verified Hospitals
+                  <div className="h-px bg-slate-100 flex-grow" />
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                  {filteredHospitals.map(h => <HospitalCard key={h.id} hospital={h} onClick={setSelectedHospital} />)}
+                </div>
+              </section>
+
+              <section>
+                <h2 className="text-2xl font-bold text-teal-950 mb-8 uppercase tracking-[0.2em] flex items-center gap-4">
+                  Top Specialists
+                  <div className="h-px bg-slate-100 flex-grow" />
+                </h2>
+                <div className="grid grid-cols-1 gap-6">
+                  {filteredDoctors.map(d => <DoctorCard key={d.id} doctor={d} onClick={setSelectedDoctor} />)}
+                </div>
+              </section>
             </div>
           </div>
         </div>
@@ -294,7 +326,7 @@ const App: React.FC = () => {
               <div className="bg-white/80 backdrop-blur-md p-2 rounded-3xl shadow-2xl border border-slate-100 flex items-stretch w-full max-w-2xl group transition-all hover:shadow-teal-900/10">
                 <input 
                   type="text" 
-                  placeholder="Enter city or facility name..." 
+                  placeholder="Enter city, specialist, or facility..." 
                   className="flex-grow pl-8 pr-4 py-5 rounded-2xl border-0 outline-none text-xl font-light bg-transparent"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
@@ -327,6 +359,7 @@ const App: React.FC = () => {
       <Footer onNavigate={setCurrentPage} />
       <BottomNav onNavigate={setCurrentPage} currentPage={currentPage} />
       {selectedHospital && <HospitalDetail hospital={selectedHospital} onClose={() => setSelectedHospital(null)} />}
+      {selectedDoctor && <DoctorDetail doctor={selectedDoctor} onClose={() => setSelectedDoctor(null)} />}
     </div>
   );
 };

@@ -20,6 +20,23 @@ export async function getHospitalSummary(hospitalName: string, specialties: stri
   }
 }
 
+export async function getDoctorSummary(doctorName: string, title: string, specialty: string) {
+  try {
+    const response = await ai.models.generateContent({
+      model: 'gemini-3-flash-preview',
+      contents: `You are a medical recruiter in Nigeria. Write a short, highly professional 2-sentence professional bio for ${doctorName}, who is a ${title} specializing in ${specialty}. Mention their dedication to patient care in the Nigerian health sector.`,
+      config: {
+        temperature: 0.7,
+        maxOutputTokens: 150,
+      }
+    });
+    return response.text;
+  } catch (error) {
+    console.error("Gemini Error:", error);
+    return "Professional profile is being updated.";
+  }
+}
+
 export async function getVoiceGuidance(text: string) {
   try {
     const response = await ai.models.generateContent({

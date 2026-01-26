@@ -11,7 +11,19 @@ export const DOCTORS: Doctor[] = [
     rating: 4.9,
     reviewCount: 124,
     imageUrl: 'https://images.unsplash.com/photo-1594824476967-48c8b964273f?auto=format&fit=crop&q=80&w=400',
-    isVerified: true
+    isVerified: true,
+    education: ['MBBS, University of Ibadan', 'Fellowship, West African College of Physicians'],
+    hospitalAffiliation: 'Reddington Hospital',
+    reviews: [
+      {
+        id: 'dr1',
+        userName: 'Tunde A.',
+        date: '2024-01-20',
+        comment: 'Extremely professional and knowledgeable. She took her time to explain my heart condition.',
+        rating: 5,
+        metrics: { careQuality: 5, waitTime: 15, estimatedCost: 50000 }
+      }
+    ]
   },
   {
     id: 'd2',
@@ -22,7 +34,10 @@ export const DOCTORS: Doctor[] = [
     rating: 5.0,
     reviewCount: 89,
     imageUrl: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=400',
-    isVerified: true
+    isVerified: true,
+    education: ['MBBS, University of Lagos', 'Residency, Johns Hopkins Medicine'],
+    hospitalAffiliation: 'Reddington Hospital',
+    reviews: []
   },
   {
     id: 'd3',
@@ -33,7 +48,10 @@ export const DOCTORS: Doctor[] = [
     rating: 4.8,
     reviewCount: 156,
     imageUrl: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=400',
-    isVerified: true
+    isVerified: true,
+    education: ['MBBS, Ahmadu Bello University', 'MSc Child Health, UCL'],
+    hospitalAffiliation: 'Lagos University Teaching Hospital (LUTH)',
+    reviews: []
   }
 ];
 

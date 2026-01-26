@@ -30,6 +30,10 @@ export interface Doctor {
   reviewCount: number;
   imageUrl: string;
   isVerified: boolean;
+  education?: string[];
+  bio?: string;
+  hospitalAffiliation?: string;
+  reviews?: Review[];
 }
 
 export interface Hospital {
