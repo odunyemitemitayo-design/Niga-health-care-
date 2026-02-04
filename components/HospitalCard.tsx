@@ -1,7 +1,6 @@
-
 import React from 'https://esm.sh/react@^19.2.3';
-import { Hospital } from '../types';
-import { formatDistance } from '../utils/location';
+import { Hospital } from '../types.ts';
+import { formatDistance } from '../utils/location.ts';
 
 interface HospitalCardProps {
   hospital: Hospital;

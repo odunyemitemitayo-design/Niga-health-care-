@@ -1,7 +1,6 @@
-
 import React, { useEffect, useState } from 'https://esm.sh/react@^19.2.3';
-import { Doctor } from '../types';
-import { getDoctorSummary } from '../services/geminiService';
+import { Doctor } from '../types.ts';
+import { getDoctorSummary } from '../services/geminiService.ts';
 
 interface DoctorDetailProps {
   doctor: Doctor;

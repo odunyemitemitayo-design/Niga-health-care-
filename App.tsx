@@ -1,23 +1,22 @@
-
 import React, { useState, useMemo, useEffect, useRef } from 'https://esm.sh/react@^19.2.3';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import BottomNav from './components/BottomNav';
-import HospitalCard from './components/HospitalCard';
-import DoctorCard from './components/DoctorCard';
-import HospitalDetail from './components/HospitalDetail';
-import DoctorDetail from './components/DoctorDetail';
-import AIAssistant from './components/AIAssistant';
-import RegistrationModal from './components/RegistrationModal';
-import AboutPage from './about';
-import PrivacyPage from './privacy';
-import TermsPage from './terms';
-import ContactPage from './contact';
-import { HOSPITALS, DOCTORS } from './data';
-import { Hospital, Doctor } from './types';
-import { calculateDistance, Coords, formatDistance } from './utils/location';
-import { getVoiceGuidance } from './services/geminiService';
-import { decodeBase64, decodeAudioData } from './utils/audio';
+import Navbar from './components/Navbar.tsx';
+import Footer from './components/Footer.tsx';
+import BottomNav from './components/BottomNav.tsx';
+import HospitalCard from './components/HospitalCard.tsx';
+import DoctorCard from './components/DoctorCard.tsx';
+import HospitalDetail from './components/HospitalDetail.tsx';
+import DoctorDetail from './components/DoctorDetail.tsx';
+import AIAssistant from './components/AIAssistant.tsx';
+import RegistrationModal from './components/RegistrationModal.tsx';
+import AboutPage from './about.tsx';
+import PrivacyPage from './privacy.tsx';
+import TermsPage from './terms.tsx';
+import ContactPage from './contact.tsx';
+import { HOSPITALS, DOCTORS } from './data.ts';
+import { Hospital, Doctor } from './types.ts';
+import { calculateDistance, Coords, formatDistance } from './utils/location.ts';
+import { getVoiceGuidance } from './services/geminiService.ts';
+import { decodeBase64, decodeAudioData } from './utils/audio.ts';
 
 interface AddReviewPageProps {
   isLoggedIn: boolean;

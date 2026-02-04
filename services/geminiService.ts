@@ -1,7 +1,13 @@
-
 import { GoogleGenAI, Modality } from "https://esm.sh/@google/genai@^1.38.0";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+const getApiKey = () => {
+  if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
+    return process.env.API_KEY;
+  }
+  return '';
+};
+
+const ai = new GoogleGenAI({ apiKey: getApiKey() });
 
 export async function getHospitalSummary(hospitalName: string, specialties: string[], rating: number) {
   try {
