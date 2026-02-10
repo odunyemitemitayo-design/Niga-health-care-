@@ -1,3 +1,4 @@
+
 import React from 'https://esm.sh/react@^19.2.3';
 import { Hospital } from '../types.ts';
 import { formatDistance } from '../utils/location.ts';
@@ -49,16 +50,18 @@ const HospitalCard: React.FC<HospitalCardProps> = ({ hospital, onClick }) => {
               <span className="text-lg font-bold leading-none">{hospital.rating}</span>
             </div>
           </div>
-          <span className="text-white/80 text-[10px] font-bold uppercase tracking-widest">{hospital.reviewCount} Patient Reviews</span>
+          <span className="text-white/80 text-[10px] font-bold uppercase tracking-widest">{hospital.reviewCount} Reviews</span>
         </div>
       </div>
       
       <div className="p-8">
         <h3 className="text-2xl font-bold text-teal-950 mb-2 leading-tight tracking-tight group-hover:text-teal-600 transition-colors serif-heading">{hospital.name}</h3>
-        <p className="text-sm text-slate-400 mb-8 flex items-center gap-2 font-medium">
+        <div className="flex items-center gap-2 mb-8">
           <svg className="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          {hospital.location.address.split(',').slice(-1)[0]}
-        </p>
+          <p className="text-sm text-slate-400 font-bold uppercase tracking-widest">
+            {hospital.location.town}, {hospital.location.lga}
+          </p>
+        </div>
 
         <div className="grid grid-cols-3 gap-6 py-6 border-y border-slate-50 mb-8">
           <div className="text-center">

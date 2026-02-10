@@ -3,6 +3,9 @@ export interface Location {
   lat: number;
   lng: number;
   address: string;
+  town?: string;
+  lga?: string;
+  plusCode?: string;
 }
 
 export interface ReviewMetrics {

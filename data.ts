@@ -1,5 +1,5 @@
 
-import { Hospital, Doctor } from './types';
+import { Hospital, Doctor } from './types.ts';
 
 export const DOCTORS: Doctor[] = [
   {
@@ -14,16 +14,7 @@ export const DOCTORS: Doctor[] = [
     isVerified: true,
     education: ['MBBS, University of Ibadan', 'Fellowship, West African College of Physicians'],
     hospitalAffiliation: 'Reddington Hospital',
-    reviews: [
-      {
-        id: 'dr1',
-        userName: 'Tunde A.',
-        date: '2024-01-20',
-        comment: 'Extremely professional and knowledgeable. She took her time to explain my heart condition.',
-        rating: 5,
-        metrics: { careQuality: 5, waitTime: 15, estimatedCost: 50000 }
-      }
-    ]
+    reviews: []
   },
   {
     id: 'd2',
@@ -38,68 +29,13 @@ export const DOCTORS: Doctor[] = [
     education: ['MBBS, University of Lagos', 'Residency, Johns Hopkins Medicine'],
     hospitalAffiliation: 'Reddington Hospital',
     reviews: []
-  },
-  {
-    id: 'd3',
-    name: 'Dr. Fatima Yusuf',
-    title: 'Pediatric Specialist',
-    specialty: 'Pediatrics',
-    experience: 12,
-    rating: 4.8,
-    reviewCount: 156,
-    imageUrl: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=400',
-    isVerified: true,
-    education: ['MBBS, Ahmadu Bello University', 'MSc Child Health, UCL'],
-    hospitalAffiliation: 'Lagos University Teaching Hospital (LUTH)',
-    reviews: []
   }
 ];
 
 export const HOSPITALS: Hospital[] = [
+  // --- PUBLIC / GOVERNMENT HOSPITALS ---
   {
-    id: '1',
-    name: 'Reddington Hospital',
-    phone: '+234 1 271 5341',
-    type: 'Private',
-    category: 'Specialist',
-    isVerified: true,
-    location: {
-      lat: 6.4449,
-      lng: 3.4245,
-      address: '12 Idowu Martins St, Victoria Island, Lagos'
-    },
-    rating: 4.8,
-    reviewCount: 342,
-    specialties: ['Cardiology', 'Emergency Care', 'Surgery'],
-    facilities: ['24/7 ICU', 'Oxygen Plant', 'Advanced Radiology', 'Pediatric Wing', 'Blood Bank'],
-    imageUrl: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=800',
-    avgMetrics: {
-      careQuality: 4.9,
-      waitTime: 15,
-      estimatedCost: 75000
-    },
-    doctors: [DOCTORS[0], DOCTORS[1]],
-    reviews: [
-      {
-        id: 'r1',
-        userName: 'Adebayo O.',
-        date: '2024-03-15',
-        comment: 'Excellent service, very fast response in the ER.',
-        rating: 5,
-        metrics: { careQuality: 5, waitTime: 10, estimatedCost: 80000 }
-      },
-      {
-        id: 'r2',
-        userName: 'Chidi E.',
-        date: '2024-02-10',
-        comment: 'The costs are high but the care quality is unparalleled in Lagos.',
-        rating: 4,
-        metrics: { careQuality: 5, waitTime: 20, estimatedCost: 95000 }
-      }
-    ]
-  },
-  {
-    id: '2',
+    id: 'luth',
     name: 'Lagos University Teaching Hospital (LUTH)',
     phone: '+234 1 454 6331',
     type: 'Public',
@@ -108,46 +44,276 @@ export const HOSPITALS: Hospital[] = [
     location: {
       lat: 6.5186,
       lng: 3.3592,
-      address: 'Ishaga Road, Idi-Araba, Surulere, Lagos'
+      town: 'Idi-Araba',
+      lga: 'Surulere',
+      address: 'Ishaga Road, Idi-Araba, Surulere LGA, Lagos State',
+      plusCode: 'FRC4+7J Lagos'
     },
     rating: 3.9,
     reviewCount: 1205,
-    specialties: ['Pediatrics', 'Obstetrics', 'General Medicine'],
-    facilities: ['Medical School', 'Neonatal ICU', 'Dental School', 'Infectious Disease Center'],
+    specialties: ['Pediatrics', 'Obstetrics', 'Surgery', 'Oncology'],
+    facilities: ['Advanced NICU', 'Radiotherapy Center', 'Dental School'],
     imageUrl: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800',
-    avgMetrics: {
-      careQuality: 4.1,
-      waitTime: 120,
-      estimatedCost: 15000
-    },
+    avgMetrics: { careQuality: 4.1, waitTime: 120, estimatedCost: 15000 },
     reviews: []
   },
   {
-    id: '3',
-    name: 'Evercare Hospital Lekki',
-    phone: '+234 813 985 0710',
+    id: 'lasuth',
+    name: 'Lagos State University Teaching Hospital (LASUTH)',
+    phone: '+234 1 490 6000',
+    type: 'Public',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.5921,
+      lng: 3.3422,
+      town: 'Ikeja',
+      lga: 'Ikeja',
+      address: '1-3, Obi-Onikan Way, Ikeja, Ikeja LGA, Lagos State',
+      plusCode: 'HRC5+XG Ikeja'
+    },
+    rating: 4.1,
+    reviewCount: 842,
+    specialties: ['Cardiology', 'Emergency Medicine', 'Renal Medicine'],
+    facilities: ['Ayinke House Maternity', 'Cardiac Center', 'Burn Center'],
+    imageUrl: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.3, waitTime: 95, estimatedCost: 12000 },
+    reviews: []
+  },
+  {
+    id: 'fmc-ebute-metta',
+    name: 'Federal Medical Centre, Ebute Metta',
+    phone: '+234 810 000 0000',
+    type: 'Public',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.4754,
+      lng: 3.3821,
+      town: 'Ebute Metta',
+      lga: 'Lagos Mainland',
+      address: 'Railway Compound, Ebute Metta, Lagos Mainland LGA, Lagos State',
+      plusCode: 'GRW9+XF Lagos'
+    },
+    rating: 4.0,
+    reviewCount: 450,
+    specialties: ['Family Medicine', 'Orthopedics', 'Dermatology'],
+    facilities: ['Diagnostic Center', 'Physiotherapy Unit'],
+    imageUrl: 'https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.1, waitTime: 80, estimatedCost: 10000 },
+    reviews: []
+  },
+  {
+    id: 'gbagada-gh',
+    name: 'Gbagada General Hospital',
+    phone: '+234 1 270 2000',
+    type: 'Public',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.5512,
+      lng: 3.3854,
+      town: 'Gbagada',
+      lga: 'Kosofe',
+      address: '1, Hospital Road, Gbagada, Kosofe LGA, Lagos State',
+      plusCode: 'GV89+PC Lagos'
+    },
+    rating: 3.7,
+    reviewCount: 412,
+    specialties: ['Surgery', 'Obstetrics', 'Urology'],
+    facilities: ['Blood Bank', 'Dialysis Unit'],
+    imageUrl: 'https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 3.8, waitTime: 110, estimatedCost: 8000 },
+    reviews: []
+  },
+  {
+    id: 'alimosho-gh',
+    name: 'Alimosho General Hospital',
+    phone: '+234 1 810 000 0000',
+    type: 'Public',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.5682,
+      lng: 3.2541,
+      town: 'Igando',
+      lga: 'Alimosho',
+      address: 'Lasu-Iba Road, Igando, Alimosho LGA, Lagos State',
+      plusCode: 'GPH8+7F Lagos'
+    },
+    rating: 3.8,
+    reviewCount: 560,
+    specialties: ['Pediatrics', 'Maternity', 'Internal Medicine'],
+    facilities: ['Modern Labs', 'Emergency Wing'],
+    imageUrl: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 3.9, waitTime: 100, estimatedCost: 7500 },
+    reviews: []
+  },
+  {
+    id: 'ikorodu-gh',
+    name: 'Ikorodu General Hospital',
+    phone: '+234 1 778 0000',
+    type: 'Public',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.6182,
+      lng: 3.5101,
+      town: 'Ikorodu',
+      lga: 'Ikorodu',
+      address: 'Hospital Road, Ikorodu, Ikorodu LGA, Lagos State',
+      plusCode: 'JXXV+96 Ikorodu'
+    },
+    rating: 3.6,
+    reviewCount: 320,
+    specialties: ['General Practice', 'Infectious Diseases'],
+    facilities: ['Maternity Unit', 'Diagnostic Lab'],
+    imageUrl: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 3.7, waitTime: 140, estimatedCost: 6000 },
+    reviews: []
+  },
+  {
+    id: 'badagry-gh',
+    name: 'Badagry General Hospital',
+    phone: '+234 1 810 111 2222',
+    type: 'Public',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.4252,
+      lng: 2.8851,
+      town: 'Badagry',
+      lga: 'Badagry',
+      address: 'Hospital Road, Badagry, Badagry LGA, Lagos State',
+      plusCode: '9H47+W5 Badagry'
+    },
+    rating: 3.4,
+    reviewCount: 180,
+    specialties: ['Primary Health', 'Emergency Medicine'],
+    facilities: ['Ambulance Services', 'Public Health Center'],
+    imageUrl: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 3.5, waitTime: 150, estimatedCost: 5500 },
+    reviews: []
+  },
+  {
+    id: 'epe-gh',
+    name: 'Epe General Hospital',
+    phone: '+234 1 810 333 4444',
+    type: 'Public',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.5821,
+      lng: 3.9852,
+      town: 'Epe',
+      lga: 'Epe',
+      address: 'Marina Road, Epe, Epe LGA, Lagos State',
+      plusCode: 'H7J2+VQ Epe'
+    },
+    rating: 3.5,
+    reviewCount: 210,
+    specialties: ['Community Health', 'Maternity Care'],
+    facilities: ['Ward Block', 'Pharmacy'],
+    imageUrl: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 3.6, waitTime: 120, estimatedCost: 6500 },
+    reviews: []
+  },
+  {
+    id: 'mushin-gh',
+    name: 'Mushin General Hospital',
+    phone: '+234 1 452 0000',
+    type: 'Public',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.5321,
+      lng: 3.3521,
+      town: 'Mushin',
+      lga: 'Mushin',
+      address: 'Idi-Oro, Mushin, Mushin LGA, Lagos State',
+      plusCode: 'GRG4+5W Lagos'
+    },
+    rating: 3.2,
+    reviewCount: 150,
+    specialties: ['General Medicine'],
+    facilities: ['Outpatient Clinic'],
+    imageUrl: 'https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 3.3, waitTime: 160, estimatedCost: 5000 },
+    reviews: []
+  },
+  {
+    id: 'isolo-gh',
+    name: 'Isolo General Hospital',
+    phone: '+234 1 452 1111',
+    type: 'Public',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.5382,
+      lng: 3.3151,
+      town: 'Isolo',
+      lga: 'Oshodi-Isolo',
+      address: 'Okota Road, Isolo, Oshodi-Isolo LGA, Lagos State',
+      plusCode: 'GRM4+MF Lagos'
+    },
+    rating: 3.5,
+    reviewCount: 280,
+    specialties: ['Pediatrics', 'Obstetrics'],
+    facilities: ['Maternity Center'],
+    imageUrl: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 3.6, waitTime: 110, estimatedCost: 7000 },
+    reviews: []
+  },
+
+  // --- PRIVATE / SPECIALIST HOSPITALS ---
+  {
+    id: 'reddington-vi',
+    name: 'Reddington Multi-Specialist Hospital',
+    phone: '+234 1 271 5341',
     type: 'Private',
     category: 'Specialist',
     isVerified: true,
     location: {
-      lat: 6.4431,
-      lng: 3.4862,
-      address: '1 Admiralty Way, Lekki Phase 1, Lagos'
+      lat: 6.4449,
+      lng: 3.4245,
+      town: 'Victoria Island',
+      lga: 'Eti-Osa',
+      address: '12 Idowu Martins St, Victoria Island, Eti-Osa LGA, Lagos State',
+      plusCode: 'FRP9+H6 Lagos'
     },
-    rating: 4.7,
-    reviewCount: 215,
-    specialties: ['Neurology', 'Oncology', 'Emergency Care'],
-    facilities: ['Cath Lab', 'MRI/CT Scan', 'Chemotherapy Suite', 'Telemedicine'],
-    imageUrl: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800',
-    avgMetrics: {
-      careQuality: 4.8,
-      waitTime: 25,
-      estimatedCost: 95000
-    },
+    rating: 4.8,
+    reviewCount: 420,
+    specialties: ['Cardiology', 'Gastroenterology', 'Neurology'],
+    facilities: ['24/7 ICU', 'Advanced Imaging Center', 'VIP Suites'],
+    imageUrl: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.9, waitTime: 15, estimatedCost: 85000 },
     reviews: []
   },
   {
-    id: '4',
+    id: 'lagoon-apapa',
+    name: 'Lagoon Hospital Apapa',
+    phone: '+234 1 271 7330',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.4552,
+      lng: 3.3642,
+      town: 'Apapa',
+      lga: 'Apapa',
+      address: '8, Marine Road, Apapa, Apapa LGA, Lagos State',
+      plusCode: 'FRV2+6X Lagos'
+    },
+    rating: 4.6,
+    reviewCount: 310,
+    specialties: ['General Surgery', 'Urology', 'Orthopedics'],
+    facilities: ['Dialysis Center', 'Surgical Theater'],
+    imageUrl: 'https://images.unsplash.com/photo-1504439468489-c8920d796a29?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.7, waitTime: 25, estimatedCost: 70000 },
+    reviews: []
+  },
+  {
+    id: 'st-nicholas-island',
     name: 'St. Nicholas Hospital',
     phone: '+234 1 270 2931',
     type: 'Private',
@@ -156,42 +322,523 @@ export const HOSPITALS: Hospital[] = [
     location: {
       lat: 6.4519,
       lng: 3.3958,
-      address: '57 Campbell Street, Lagos Island, Lagos'
+      town: 'Lagos Island',
+      lga: 'Lagos Island',
+      address: '57 Campbell Street, Lagos Island, Lagos Island LGA, Lagos State',
+      plusCode: 'FRX4+7F Lagos'
     },
     rating: 4.5,
     reviewCount: 560,
-    specialties: ['Nephrology', 'Surgery', 'Dialysis'],
-    facilities: ['Transplant Unit', 'Dialysis Center', 'Intensive Care Unit', 'Executive Clinic'],
-    imageUrl: 'https://images.unsplash.com/photo-1504439468489-c8920d796a29?auto=format&fit=crop&q=80&w=800',
-    avgMetrics: {
-      careQuality: 4.6,
-      waitTime: 40,
-      estimatedCost: 60000
-    },
+    specialties: ['Nephrology', 'Organ Transplant', 'Radiology'],
+    facilities: ['Kidney Transplant Unit', 'State-of-the-art Dialysis'],
+    imageUrl: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.6, waitTime: 35, estimatedCost: 65000 },
     reviews: []
   },
   {
-    id: '5',
-    name: 'National Hospital Abuja',
-    phone: '+234 9 234 2667',
+    id: 'evercare-lekki',
+    name: 'Evercare Hospital Lekki',
+    phone: '+234 813 985 0710',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.4431,
+      lng: 3.4862,
+      town: 'Lekki Phase 1',
+      lga: 'Eti-Osa',
+      address: '1 Admiralty Way, Lekki Phase 1, Eti-Osa LGA, Lagos State',
+      plusCode: 'FP9V+5C Lagos'
+    },
+    rating: 4.7,
+    reviewCount: 245,
+    specialties: ['Critical Care', 'Neuroscience', 'Oncology'],
+    facilities: ['Cath Lab', 'CT/MRI Suite', 'Modern ICU'],
+    imageUrl: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.8, waitTime: 20, estimatedCost: 95000 },
+    reviews: []
+  },
+  {
+    id: 'eko-ikeja',
+    name: 'The Eko Hospital',
+    phone: '+234 1 497 8800',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.5855,
+      lng: 3.3541,
+      town: 'Ikeja',
+      lga: 'Ikeja',
+      address: '31, Mobolaji Bank Anthony Way, Ikeja, Ikeja LGA, Lagos State',
+      plusCode: 'HRC4+X2 Ikeja'
+    },
+    rating: 4.4,
+    reviewCount: 680,
+    specialties: ['Internal Medicine', 'Physiotherapy', 'ENT'],
+    facilities: ['Diagnostic Center', 'Standard Pharmacy'],
+    imageUrl: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.5, waitTime: 45, estimatedCost: 55000 },
+    reviews: []
+  },
+  {
+    id: 'paelon-vi',
+    name: 'Paelon Memorial Hospital',
+    phone: '+234 810 000 0000',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.4352,
+      lng: 3.4151,
+      town: 'Victoria Island',
+      lga: 'Eti-Osa',
+      address: '1221 Ahmadu Bello Way, Victoria Island, Eti-Osa LGA, Lagos State',
+      plusCode: 'FRP4+6V Lagos'
+    },
+    rating: 4.7,
+    reviewCount: 190,
+    specialties: ['Family Medicine', 'Pediatrics'],
+    facilities: ['Quality Lab Services', 'Child Friendly Ward'],
+    imageUrl: 'https://images.unsplash.com/photo-1504439468489-c8920d796a29?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.8, waitTime: 15, estimatedCost: 45000 },
+    reviews: []
+  },
+  {
+    id: 'first-cardiology',
+    name: 'First Cardiology Consultants',
+    phone: '+234 1 270 2001',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.4421,
+      lng: 3.4021,
+      town: 'Ikoyi',
+      lga: 'Eti-Osa',
+      address: '20-24 Thompson Ave, Ikoyi, Eti-Osa LGA, Lagos State',
+      plusCode: 'FRR3+X6 Lagos'
+    },
+    rating: 4.9,
+    reviewCount: 150,
+    specialties: ['Cardiovascular Surgery', 'Electrophysiology'],
+    facilities: ['Advanced Cardiac Lab', 'CCU'],
+    imageUrl: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 5.0, waitTime: 20, estimatedCost: 150000 },
+    reviews: []
+  },
+  {
+    id: 'vedic-lekki',
+    name: 'Vedic Lifecare Clinic',
+    phone: '+234 810 000 1111',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.4521,
+      lng: 3.5211,
+      town: 'Lekki',
+      lga: 'Eti-Osa',
+      address: 'Plot 6, Block 111, Lekki Phase 1, Eti-Osa LGA, Lagos State',
+      plusCode: 'FPX7+6J Lagos'
+    },
+    rating: 4.4,
+    reviewCount: 220,
+    specialties: ['Diagnostics', 'Multi-Specialist'],
+    facilities: ['CT Scan', 'Pathology Lab'],
+    imageUrl: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.5, waitTime: 30, estimatedCost: 50000 },
+    reviews: []
+  },
+  {
+    id: 'duchess-ikeja',
+    name: 'Duchess International Hospital',
+    phone: '+234 1 810 555 6666',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.5911,
+      lng: 3.3521,
+      town: 'Ikeja GRA',
+      lga: 'Ikeja',
+      address: '22A Joel Ogunnaike St, Ikeja GRA, Ikeja LGA, Lagos State',
+      plusCode: 'HR94+5V Ikeja'
+    },
+    rating: 4.8,
+    reviewCount: 130,
+    specialties: ['Internal Medicine', 'Ophthalmology', 'Surgical Arts'],
+    facilities: ['Luxury Suites', 'Advanced Surgery Center'],
+    imageUrl: 'https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.9, waitTime: 10, estimatedCost: 120000 },
+    reviews: []
+  },
+  {
+    id: 'euracare-vi',
+    name: 'Euracare Multi-Specialist Hospital',
+    phone: '+234 1 810 777 8888',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.4312,
+      lng: 3.4251,
+      town: 'Victoria Island',
+      lga: 'Eti-Osa',
+      address: '293 Kofo Abayomi St, Victoria Island, Eti-Osa LGA, Lagos State',
+      plusCode: 'FRP4+J6 Lagos'
+    },
+    rating: 4.7,
+    reviewCount: 95,
+    specialties: ['Interventional Radiology', 'Endoscopy'],
+    facilities: ['Digital Imaging', 'Executive Health Checkups'],
+    imageUrl: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.8, waitTime: 15, estimatedCost: 100000 },
+    reviews: []
+  },
+  {
+    id: 'lily-lekki',
+    name: 'Lily Hospitals',
+    phone: '+234 1 810 999 0000',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.4521,
+      lng: 3.5421,
+      town: 'Lekki',
+      lga: 'Eti-Osa',
+      address: 'Plot 2, Block 12, Lekki Phase 2, Eti-Osa LGA, Lagos State',
+      plusCode: 'FPXF+8J Lagos'
+    },
+    rating: 4.3,
+    reviewCount: 110,
+    specialties: ['Fertility', 'General Practice'],
+    facilities: ['IVF Center', 'Emergency Care'],
+    imageUrl: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.4, waitTime: 40, estimatedCost: 40000 },
+    reviews: []
+  },
+  {
+    id: 'gold-cross-ikoyi',
+    name: 'Gold Cross Hospital',
+    phone: '+234 1 452 3333',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.4481,
+      lng: 3.4211,
+      town: 'Ikoyi',
+      lga: 'Eti-Osa',
+      address: '17 Bourdillon Rd, Ikoyi, Eti-Osa LGA, Lagos State',
+      plusCode: 'FRM4+X6 Lagos'
+    },
+    rating: 4.6,
+    reviewCount: 140,
+    specialties: ['Obs & Gynae', 'Pediatrics'],
+    facilities: ['Private Delivery Rooms', 'Neonatal Center'],
+    imageUrl: 'https://images.unsplash.com/photo-1504439468489-c8920d796a29?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.7, waitTime: 20, estimatedCost: 60000 },
+    reviews: []
+  },
+  {
+    id: 'first-consultant-obalende',
+    name: 'First Consultant Medical Centre',
+    phone: '+234 1 263 2000',
+    type: 'Private',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.4481,
+      lng: 3.4051,
+      town: 'Obalende',
+      lga: 'Eti-Osa',
+      address: '16-24 St Gregory Rd, Obalende, Eti-Osa LGA, Lagos State',
+      plusCode: 'FRM4+M7 Lagos'
+    },
+    rating: 4.5,
+    reviewCount: 300,
+    specialties: ['General Practice', 'Infectious Diseases'],
+    facilities: ['Isolation Unit', 'Diagnostic Lab'],
+    imageUrl: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.6, waitTime: 30, estimatedCost: 35000 },
+    reviews: []
+  },
+  {
+    id: 'artemis-vi',
+    name: 'Artemis Medical Center',
+    phone: '+234 1 810 222 3333',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.4351,
+      lng: 3.4351,
+      town: 'Victoria Island',
+      lga: 'Eti-Osa',
+      address: 'Plot 11, Block 2, Victoria Island, Eti-Osa LGA, Lagos State',
+      plusCode: 'FRP4+F6 Lagos'
+    },
+    rating: 4.4,
+    reviewCount: 75,
+    specialties: ['Aesthetics', 'Wellness', 'General Practice'],
+    facilities: ['Spa/Wellness Wing', 'Luxury Recovery Rooms'],
+    imageUrl: 'https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.5, waitTime: 10, estimatedCost: 55000 },
+    reviews: []
+  },
+  {
+    id: 'avenue-medical-lekki',
+    name: 'Avenue Medical Centre',
+    phone: '+234 1 810 444 5555',
+    type: 'Private',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.4581,
+      lng: 3.5111,
+      town: 'Lekki Phase 1',
+      lga: 'Eti-Osa',
+      address: 'Block 22, Lekki Phase 1, Eti-Osa LGA, Lagos State',
+      plusCode: 'FPV7+X4 Lagos'
+    },
+    rating: 4.2,
+    reviewCount: 120,
+    specialties: ['General Medicine', 'Emergency'],
+    facilities: ['Ambulance', 'Pharmacy'],
+    imageUrl: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.3, waitTime: 35, estimatedCost: 30000 },
+    reviews: []
+  },
+  {
+    id: 'primecare-ikeja',
+    name: 'PrimeCare Hospital',
+    phone: '+234 1 452 7777',
+    type: 'Private',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.6111,
+      lng: 3.3411,
+      town: 'Ikeja',
+      lga: 'Ikeja',
+      address: 'Allen Avenue, Ikeja, Ikeja LGA, Lagos State',
+      plusCode: 'HXF4+XG Ikeja'
+    },
+    rating: 4.1,
+    reviewCount: 205,
+    specialties: ['Internal Medicine', 'Surgery'],
+    facilities: ['X-Ray', 'Lab'],
+    imageUrl: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.2, waitTime: 40, estimatedCost: 25000 },
+    reviews: []
+  },
+  {
+    id: 'randle-gh-surulere',
+    name: 'Randle General Hospital',
+    phone: '+234 1 452 8888',
     type: 'Public',
     category: 'General',
     isVerified: true,
     location: {
-      lat: 9.0435,
-      lng: 7.4725,
-      address: 'Plot 265, Independence Avenue, Central Business District, Abuja'
+      lat: 6.5121,
+      lng: 3.3611,
+      town: 'Surulere',
+      lga: 'Surulere',
+      address: 'Randle Avenue, Surulere, Surulere LGA, Lagos State',
+      plusCode: 'FRC4+M7 Lagos'
     },
-    rating: 4.0,
-    reviewCount: 890,
-    specialties: ['Trauma', 'Radiology', 'General Surgery'],
-    facilities: ['Radiotherapy Center', 'Trauma Center', 'Helipad', 'Oxygen Plant'],
-    imageUrl: 'https://images.unsplash.com/photo-1538108197003-596dc762696e?auto=format&fit=crop&q=80&w=800',
-    avgMetrics: {
-      careQuality: 4.2,
-      waitTime: 90,
-      estimatedCost: 20000
+    rating: 3.6,
+    reviewCount: 340,
+    specialties: ['General Practice', 'Obstetrics'],
+    facilities: ['Maternity Ward'],
+    imageUrl: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 3.7, waitTime: 130, estimatedCost: 6000 },
+    reviews: []
+  },
+  {
+    id: 'agbowa-gh',
+    name: 'Agbowa General Hospital',
+    phone: '+234 1 810 000 7777',
+    type: 'Public',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.6521,
+      lng: 3.6821,
+      town: 'Agbowa',
+      lga: 'Ikosi-Ejirin',
+      address: 'Ikorodu-Epe Road, Agbowa, Ikosi-Ejirin LGA, Lagos State',
+      plusCode: 'MX89+4F Agbowa'
     },
+    rating: 3.3,
+    reviewCount: 110,
+    specialties: ['Community Health'],
+    facilities: ['Clinic'],
+    imageUrl: 'https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 3.4, waitTime: 100, estimatedCost: 4500 },
+    reviews: []
+  },
+  {
+    id: 'ifako-gh',
+    name: 'Ifako-Ijaiye General Hospital',
+    phone: '+234 1 810 000 8888',
+    type: 'Public',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.6421,
+      lng: 3.3121,
+      town: 'Ifako',
+      lga: 'Ifako-Ijaiye',
+      address: 'College Road, Ifako-Ijaiye, Ifako-Ijaiye LGA, Lagos State',
+      plusCode: 'JX74+6V Ifako'
+    },
+    rating: 3.5,
+    reviewCount: 260,
+    specialties: ['Pediatrics', 'Maternity'],
+    facilities: ['Wards'],
+    imageUrl: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 3.6, waitTime: 120, estimatedCost: 7000 },
+    reviews: []
+  },
+  {
+    id: 'amuwo-gh',
+    name: 'Amuwo Odofin General Hospital',
+    phone: '+234 1 810 000 9999',
+    type: 'Public',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.4721,
+      lng: 3.2821,
+      town: 'Festac',
+      lga: 'Amuwo Odofin',
+      address: 'Festac Town, Amuwo Odofin LGA, Lagos State',
+      plusCode: 'GRW4+7F Lagos'
+    },
+    rating: 3.4,
+    reviewCount: 195,
+    specialties: ['General Medicine'],
+    facilities: ['Ambulatory Care'],
+    imageUrl: 'https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 3.5, waitTime: 140, estimatedCost: 6000 },
+    reviews: []
+  },
+  {
+    id: 'harvey-road-gh',
+    name: 'Harvey Road Health Centre',
+    phone: '+234 1 452 9999',
+    type: 'Public',
+    category: 'General',
+    isVerified: true,
+    location: {
+      lat: 6.5021,
+      lng: 3.3721,
+      town: 'Yaba',
+      lga: 'Lagos Mainland',
+      address: 'Harvey Road, Yaba, Lagos Mainland LGA, Lagos State',
+      plusCode: 'FRC4+J7 Lagos'
+    },
+    rating: 3.6,
+    reviewCount: 420,
+    specialties: ['Maternity Care', 'Pediatrics'],
+    facilities: ['Antenatal Center'],
+    imageUrl: 'https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 3.8, waitTime: 100, estimatedCost: 5000 },
+    reviews: []
+  },
+  {
+    id: 'olive-lekki',
+    name: 'Olive Multi-Specialist Hospital',
+    phone: '+234 810 000 2222',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.4621,
+      lng: 3.5521,
+      town: 'Lekki',
+      lga: 'Eti-Osa',
+      address: 'Block 15, Lekki Phase 1, Eti-Osa LGA, Lagos State',
+      plusCode: 'FPXF+JV Lagos'
+    },
+    rating: 4.5,
+    reviewCount: 85,
+    specialties: ['Orthopedics', 'Spine Surgery'],
+    facilities: ['Physio Center', 'Modern Theater'],
+    imageUrl: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.6, waitTime: 25, estimatedCost: 90000 },
+    reviews: []
+  },
+  {
+    id: 'bridge-clinic-vi',
+    name: 'The Bridge Clinic',
+    phone: '+234 1 271 7335',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.4321,
+      lng: 3.4251,
+      town: 'Victoria Island',
+      lga: 'Eti-Osa',
+      address: '66 Oduduwa Way, Victoria Island, Eti-Osa LGA, Lagos State',
+      plusCode: 'FRP4+J6 Lagos'
+    },
+    rating: 4.8,
+    reviewCount: 160,
+    specialties: ['Fertility (IVF)', 'Genetic Testing'],
+    facilities: ['Embryology Lab', 'Egg Freezing Bank'],
+    imageUrl: 'https://images.unsplash.com/photo-1512678080530-7760d81faba6?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.9, waitTime: 15, estimatedCost: 250000 },
+    reviews: []
+  },
+  {
+    id: 'premiere-specialists-vi',
+    name: 'Premiere Specialists Medical Centre',
+    phone: '+234 1 270 2005',
+    type: 'Private',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.4381,
+      lng: 3.4421,
+      town: 'Victoria Island',
+      lga: 'Eti-Osa',
+      address: 'Plot 7, Block 1, Victoria Island, Eti-Osa LGA, Lagos State',
+      plusCode: 'FRP4+R8 Lagos'
+    },
+    rating: 4.6,
+    reviewCount: 130,
+    specialties: ['Obs & Gynae', 'Neonatology'],
+    facilities: ['Private Wards', 'Modern NICU'],
+    imageUrl: 'https://images.unsplash.com/photo-1504439468489-c8920d796a29?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.7, waitTime: 20, estimatedCost: 75000 },
+    reviews: []
+  },
+  {
+    id: 'mainland-hosp-yaba',
+    name: 'Mainland Hospital (Infectious Diseases)',
+    phone: '+234 1 452 7777',
+    type: 'Public',
+    category: 'Specialist',
+    isVerified: true,
+    location: {
+      lat: 6.5021,
+      lng: 3.3821,
+      town: 'Yaba',
+      lga: 'Lagos Mainland',
+      address: 'Mainland Hospital Road, Yaba, Lagos Mainland LGA, Lagos State',
+      plusCode: 'FRC9+XF Lagos'
+    },
+    rating: 4.2,
+    reviewCount: 140,
+    specialties: ['Infectious Diseases', 'Public Health'],
+    facilities: ['Isolation Center', 'Diagnostic Lab'],
+    imageUrl: 'https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&q=80&w=800',
+    avgMetrics: { careQuality: 4.3, waitTime: 60, estimatedCost: 5000 },
     reviews: []
   }
 ];

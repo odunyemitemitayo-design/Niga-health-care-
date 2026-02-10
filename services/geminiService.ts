@@ -1,17 +1,8 @@
 import { GoogleGenAI, Modality } from "https://esm.sh/@google/genai@^1.38.0";
 
-declare global {
-  interface ImportMetaEnv {
-    readonly VITE_API_KEY?: string;
-  }
-  interface ImportMeta {
-    readonly env: ImportMetaEnv;
-  }
-}
-
 const getApiKey = () => {
-  if (typeof window !== 'undefined' && import.meta?.env?.VITE_API_KEY) {
-    return import.meta.env.VITE_API_KEY;
+  if (typeof process !== 'undefined' && process.env && process.env.API_KEY) {
+    return process.env.API_KEY;
   }
   return '';
 };

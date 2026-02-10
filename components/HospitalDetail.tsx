@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'https://esm.sh/react@^19.2.3';
 import { Hospital } from '../types.ts';
 import { getHospitalSummary, getEmergencyGuidance, getFacilityOverview } from '../services/geminiService.ts';
@@ -57,7 +58,9 @@ const HospitalDetail: React.FC<HospitalDetailProps> = ({ hospital, onClose }) =>
                 </span>
               )}
             </div>
-            <p className="text-sm text-slate-500 font-medium">{hospital.location.address}</p>
+            <p className="text-sm text-slate-500 font-bold uppercase tracking-widest">
+              {hospital.location.town} • {hospital.location.lga} LGA, Lagos
+            </p>
           </div>
         </div>
         <div className="flex gap-4">
@@ -99,7 +102,7 @@ const HospitalDetail: React.FC<HospitalDetailProps> = ({ hospital, onClose }) =>
                 <p className="text-teal-800 italic text-xl leading-relaxed font-medium">"{summary}"</p>
               </div>
               <div className="prose prose-slate max-w-none text-slate-600 text-lg leading-relaxed">
-                <p>Located in the heart of {hospital.location.address.split(',')[1] || 'the city'}, {hospital.name} is a premier {hospital.type.toLowerCase()} {hospital.category.toLowerCase()} facility dedicated to excellence in patient care.</p>
+                <p>Located in <strong>{hospital.location.town}</strong>, {hospital.name} is a premier {hospital.type.toLowerCase()} {hospital.category.toLowerCase()} facility dedicated to excellence in patient care for the {hospital.location.lga} region.</p>
                 {facilityDesc && (
                   <div className="mt-10 space-y-6">
                     <h3 className="text-teal-950 font-bold text-2xl tracking-tight">Clinical Capabilities</h3>
@@ -128,112 +131,61 @@ const HospitalDetail: React.FC<HospitalDetailProps> = ({ hospital, onClose }) =>
                 </div>
               </div>
             </section>
-
-            {/* Reviews Section */}
-            <section className="pt-16 border-t border-slate-100">
-              <div className="flex justify-between items-center mb-10">
-                <h2 className="text-3xl font-bold text-teal-950 tracking-tight">Community Feedback</h2>
-                <button className="bg-teal-600 text-white px-6 py-2 rounded-lg font-bold text-sm shadow-lg shadow-teal-600/20 hover:bg-teal-700 transition-all active:scale-95">Leave a Review</button>
-              </div>
-              <div className="space-y-8">
-                {hospital.reviews.length > 0 ? hospital.reviews.map(r => (
-                  <div key={r.id} className="bg-white p-10 rounded-lg border border-slate-100 shadow-sm hover:shadow-md transition-shadow">
-                    <div className="flex justify-between items-start mb-6">
-                      <div className="flex items-center gap-4">
-                         <div className="w-12 h-12 bg-slate-100 rounded-full flex items-center justify-center font-bold text-slate-400">
-                           {r.userName.charAt(0)}
-                         </div>
-                         <div>
-                          <h5 className="font-bold text-teal-950 text-lg">{r.userName}</h5>
-                          <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">{new Date(r.date).toLocaleDateString('en-NG', { dateStyle: 'long' })}</p>
-                        </div>
-                      </div>
-                      <div className="flex text-teal-500 font-bold text-lg">
-                        {"★".repeat(r.rating)}{"☆".repeat(5-r.rating)}
-                      </div>
-                    </div>
-                    <p className="text-slate-600 italic text-lg leading-relaxed mb-8">"{r.comment}"</p>
-                    <div className="flex flex-wrap gap-6 text-xs uppercase font-bold text-slate-400 pt-6 border-t border-slate-50">
-                      <span className="flex items-center gap-1"><span className="text-teal-600">Care Quality:</span> {r.metrics.careQuality}/5</span>
-                      <span className="flex items-center gap-1"><span className="text-teal-600">Wait Time:</span> {r.metrics.waitTime}m</span>
-                      <span className="flex items-center gap-1"><span className="text-teal-600">Cost Value:</span> Fair</span>
-                    </div>
-                  </div>
-                )) : (
-                  <div className="text-center py-20 bg-slate-50 rounded-lg border-2 border-dashed border-slate-200">
-                    <p className="text-slate-400 font-bold uppercase tracking-widest text-sm">No clinical reviews yet.</p>
-                  </div>
-                )}
-              </div>
-            </section>
           </div>
 
           {/* Sidebar */}
           <aside className="space-y-10">
-            {/* Map Area */}
             <div className="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm">
               <div className="h-56 bg-slate-100 flex items-center justify-center relative group">
                 <div className="absolute inset-0 bg-teal-600/5 group-hover:bg-teal-600/10 transition-colors" />
                 <svg className="w-16 h-16 text-teal-600/30" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/></svg>
                 <div className="absolute bottom-6 px-6 w-full">
-                  <button className="w-full bg-white text-teal-950 text-xs font-bold py-3 rounded-lg shadow-xl border border-slate-100 hover:bg-slate-50 transition-colors uppercase tracking-widest">Launch Navigation</button>
+                  <a 
+                    href={`https://www.google.com/maps/search/?api=1&query=${hospital.location.lat},${hospital.location.lng}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-white text-teal-950 text-xs font-bold py-3 rounded-lg shadow-xl border border-slate-100 hover:bg-slate-50 transition-colors uppercase tracking-widest text-center block"
+                  >
+                    Launch Navigation
+                  </a>
                 </div>
               </div>
               <div className="p-8">
                 <h4 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-3">Facility Location</h4>
-                <p className="text-base text-teal-950 font-bold leading-relaxed">{hospital.location.address}</p>
+                <p className="text-base text-teal-950 font-bold leading-relaxed mb-4">{hospital.location.address}</p>
+                <div className="space-y-2">
+                   <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-50 pb-2">
+                      <span>Coordinates</span>
+                      <span className="text-teal-600">{hospital.location.lat.toFixed(4)}, {hospital.location.lng.toFixed(4)}</span>
+                   </div>
+                   {hospital.location.plusCode && (
+                     <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-50 pb-2">
+                        <span>Plus Code</span>
+                        <span className="text-teal-600">{hospital.location.plusCode}</span>
+                     </div>
+                   )}
+                   <div className="flex gap-2 pt-2">
+                      <span className="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded text-slate-500 uppercase">{hospital.location.town}</span>
+                      <span className="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded text-slate-500 uppercase">{hospital.location.lga} LGA</span>
+                   </div>
+                </div>
               </div>
             </div>
 
-            {/* Costs & Metrics */}
             <div className="bg-teal-950 text-white rounded-lg p-10 shadow-2xl relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-teal-600/10 blur-3xl rounded-full"></div>
               <h4 className="text-teal-400 text-xs font-bold uppercase tracking-[0.2em] mb-8">Patient Pricing</h4>
               <div className="space-y-8">
                 <div>
                   <p className="text-teal-300/60 text-xs font-bold uppercase mb-2">Base Consultation Fee</p>
                   <p className="text-4xl font-bold tracking-tighter">{formatCurrency(hospital.avgMetrics.estimatedCost)}</p>
                 </div>
-                <div className="pt-8 border-t border-teal-800 space-y-6">
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-teal-300 font-medium">Avg. Wait Time</span>
-                    <span className="font-bold">{hospital.avgMetrics.waitTime} minutes</span>
-                  </div>
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-teal-300 font-medium">Insurance Network</span>
-                    <span className="font-bold">HMO / NHIS / Self-Pay</span>
-                  </div>
-                </div>
               </div>
               <button className="w-full bg-teal-600 text-white font-bold py-5 rounded-lg mt-10 hover:bg-teal-500 transition-all shadow-xl shadow-black/20 active:scale-95 uppercase tracking-widest">
                 Secure Appointment
               </button>
             </div>
-
-            {/* Emergency Tips Sidebar */}
-            {emergencyTips && (
-              <div className="bg-[#FFF5F5] border border-red-100 p-8 rounded-lg shadow-sm">
-                <h4 className="text-[#D32F2F] font-bold mb-6 flex items-center gap-3 text-xs uppercase tracking-[0.2em]">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                  Emergency Checklist
-                </h4>
-                <div className="prose prose-sm text-red-900 whitespace-pre-line text-sm font-bold leading-relaxed opacity-80">
-                  {emergencyTips}
-                </div>
-              </div>
-            )}
           </aside>
         </div>
-      </div>
-      
-      {/* Mobile Sticky Action Bar */}
-      <div className="fixed bottom-0 left-0 right-0 p-4 sm:hidden bg-white/95 backdrop-blur-md border-t border-slate-100 flex gap-4 z-50 shadow-2xl">
-        <a 
-          href={`tel:${hospital.phone}`}
-          className="flex-1 bg-[#D32F2F] text-white font-bold py-5 rounded-lg text-center shadow-xl shadow-red-500/20 active:scale-95"
-        >
-          URGENT CALL
-        </a>
       </div>
     </div>
   );
