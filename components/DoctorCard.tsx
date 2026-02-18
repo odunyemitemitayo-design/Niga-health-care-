@@ -1,6 +1,6 @@
 
 import React from 'https://esm.sh/react@^19.2.3';
-import { Doctor } from '../types';
+import { Doctor } from '../types.ts';
 
 interface DoctorCardProps {
   doctor: Doctor;

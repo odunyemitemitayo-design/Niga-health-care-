@@ -3,12 +3,13 @@ import React from 'https://esm.sh/react@^19.2.3';
 
 interface NavbarProps {
   onNavigate: (page: string) => void;
+  onAuthAction: (mode: 'login' | 'register') => void;
   currentPage: string;
-  onOpenRegister: () => void;
   isLoggedIn: boolean;
+  onLogout: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage, onOpenRegister, isLoggedIn }) => {
+const Navbar: React.FC<NavbarProps> = ({ onNavigate, onAuthAction, currentPage, isLoggedIn, onLogout }) => {
   const links = [
     { id: 'home', label: 'Home' },
     { id: 'hospitals', label: 'Directory' },
@@ -50,13 +51,13 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage, onOpenRegister
             {!isLoggedIn ? (
               <>
                 <button 
-                  onClick={onOpenRegister}
+                  onClick={() => onAuthAction('register')}
                   className="text-[11px] font-bold text-slate-400 hover:text-teal-600 uppercase tracking-widest transition-colors hidden sm:block"
                 >
                   REGISTER
                 </button>
                 <button 
-                  onClick={onOpenRegister}
+                  onClick={() => onAuthAction('login')}
                   className="bg-teal-950 text-white px-8 py-4 rounded-xl text-[11px] font-bold uppercase tracking-widest hover:bg-teal-900 transition-all shadow-xl shadow-teal-950/10 active:scale-95"
                 >
                   SIGN IN
@@ -64,8 +65,13 @@ const Navbar: React.FC<NavbarProps> = ({ onNavigate, currentPage, onOpenRegister
               </>
             ) : (
               <div className="flex items-center gap-4">
-                <span className="text-[10px] font-bold text-teal-600 uppercase tracking-widest hidden md:block">Verified Member</span>
-                <div className="w-12 h-12 bg-slate-100 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 font-bold">
+                <button 
+                  onClick={onLogout}
+                  className="text-[11px] font-bold text-slate-400 hover:text-red-600 uppercase tracking-widest transition-colors hidden sm:block"
+                >
+                  SIGN OUT
+                </button>
+                <div className="w-12 h-12 bg-teal-50 rounded-full border border-teal-100 flex items-center justify-center text-teal-600 font-bold shadow-sm">
                   U
                 </div>
               </div>

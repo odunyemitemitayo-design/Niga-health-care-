@@ -152,21 +152,23 @@ const HospitalDetail: React.FC<HospitalDetailProps> = ({ hospital, onClose }) =>
               </div>
               <div className="p-8">
                 <h4 className="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-3">Facility Location</h4>
-                <p className="text-base text-teal-950 font-bold leading-relaxed mb-4">{hospital.location.address}</p>
-                <div className="space-y-2">
-                   <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-50 pb-2">
+                <p className="text-base text-teal-950 font-bold leading-relaxed mb-6">{hospital.location.address}</p>
+                
+                <div className="space-y-3 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                   <h5 className="text-[10px] font-black text-teal-900 uppercase tracking-widest mb-4">Geo-Verification</h5>
+                   <div className="flex justify-between items-center text-[10px] font-bold text-slate-500 uppercase tracking-tight pb-3 border-b border-slate-200/50">
                       <span>Coordinates</span>
-                      <span className="text-teal-600">{hospital.location.lat.toFixed(4)}, {hospital.location.lng.toFixed(4)}</span>
+                      <span className="text-teal-600 font-mono tracking-normal">{hospital.location.lat.toFixed(4)}, {hospital.location.lng.toFixed(4)}</span>
                    </div>
                    {hospital.location.plusCode && (
-                     <div className="flex justify-between text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-50 pb-2">
+                     <div className="flex justify-between items-center text-[10px] font-bold text-slate-500 uppercase tracking-tight py-3 border-b border-slate-200/50">
                         <span>Plus Code</span>
                         <span className="text-teal-600">{hospital.location.plusCode}</span>
                      </div>
                    )}
-                   <div className="flex gap-2 pt-2">
-                      <span className="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded text-slate-500 uppercase">{hospital.location.town}</span>
-                      <span className="text-[10px] font-bold bg-slate-100 px-2 py-1 rounded text-slate-500 uppercase">{hospital.location.lga} LGA</span>
+                   <div className="flex justify-between items-center text-[10px] font-bold text-slate-500 uppercase tracking-tight pt-3">
+                      <span>District / LGA</span>
+                      <span className="text-teal-600">{hospital.location.town} / {hospital.location.lga}</span>
                    </div>
                 </div>
               </div>

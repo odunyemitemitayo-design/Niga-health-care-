@@ -1,3 +1,4 @@
+
 import React, { useState, useMemo, useEffect, useRef } from 'https://esm.sh/react@^19.2.3';
 import Navbar from './components/Navbar.tsx';
 import Footer from './components/Footer.tsx';
@@ -20,7 +21,7 @@ import { decodeBase64, decodeAudioData } from './utils/audio.ts';
 
 interface AddReviewPageProps {
   isLoggedIn: boolean;
-  onNavigateToAuth: () => void;
+  onNavigateToAuth: (mode: 'login' | 'register') => void;
 }
 
 const AddReviewPage: React.FC<AddReviewPageProps> = ({ isLoggedIn, onNavigateToAuth }) => {
@@ -47,7 +48,7 @@ const AddReviewPage: React.FC<AddReviewPageProps> = ({ isLoggedIn, onNavigateToA
             <br /><span className="text-teal-900 font-bold">Please sign in to share your experience and help others find quality care.</span>
           </p>
           <button 
-            onClick={onNavigateToAuth}
+            onClick={() => onNavigateToAuth('login')}
             className="bg-teal-950 text-white font-bold px-12 py-6 rounded-2xl uppercase tracking-[0.4em] text-[10px] shadow-2xl shadow-teal-900/20 active:scale-95 transition-all"
           >
             Sign In / Register
@@ -105,12 +106,15 @@ const AddReviewPage: React.FC<AddReviewPageProps> = ({ isLoggedIn, onNavigateToA
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState('home');
+  const [authInitialMode, setAuthInitialMode] = useState<'login' | 'register'>('register');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedHospital, setSelectedHospital] = useState<Hospital | null>(null);
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
   const [isLocating, setIsLocating] = useState(false);
   const [userCoords, setUserCoords] = useState<Coords | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    return localStorage.getItem('naijahealth_is_logged_in') === 'true';
+  });
   
   const [isAssistantSpeaking, setIsAssistantSpeaking] = useState(false);
   const [assistantText, setAssistantText] = useState('');
@@ -176,8 +180,21 @@ const App: React.FC = () => {
 
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
+    localStorage.setItem('naijahealth_is_logged_in', 'true');
     setCurrentPage('home');
-    speakResponse("Welcome back. Your professional profile is now active.");
+    speakResponse("Welcome. Your professional profile is now active.");
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem('naijahealth_is_logged_in');
+    setCurrentPage('home');
+    speakResponse("You have been securely logged out. Stay healthy.");
+  };
+
+  const handleOpenAuth = (mode: 'login' | 'register') => {
+    setAuthInitialMode(mode);
+    setCurrentPage('auth');
   };
 
   const renderContent = () => {
@@ -186,7 +203,7 @@ const App: React.FC = () => {
       case 'privacy': return <PrivacyPage />;
       case 'terms': return <TermsPage />;
       case 'contact': return <ContactPage />;
-      case 'add-review': return <AddReviewPage isLoggedIn={isLoggedIn} onNavigateToAuth={() => setCurrentPage('auth')} />;
+      case 'add-review': return <AddReviewPage isLoggedIn={isLoggedIn} onNavigateToAuth={handleOpenAuth} />;
       case 'auth': return (
         <div className="pt-24 min-h-screen bg-slate-50 flex items-center justify-center p-4">
           <div className="w-full max-w-6xl flex flex-col lg:flex-row bg-white rounded-[40px] shadow-2xl overflow-hidden border border-slate-100">
@@ -219,6 +236,7 @@ const App: React.FC = () => {
                <RegistrationModal 
                  isOpen={true} 
                  isInline={true} 
+                 initialMode={authInitialMode}
                  onClose={() => setCurrentPage('home')} 
                  onLoginSuccess={handleLoginSuccess}
                />
@@ -349,9 +367,10 @@ const App: React.FC = () => {
     <div className="min-h-screen flex flex-col selection:bg-teal-100 selection:text-teal-900">
       <Navbar 
         onNavigate={setCurrentPage} 
+        onAuthAction={handleOpenAuth}
         currentPage={currentPage} 
-        onOpenRegister={() => setCurrentPage('auth')}
         isLoggedIn={isLoggedIn}
+        onLogout={handleLogout}
       />
       <div className="flex-grow">{renderContent()}</div>
       <AIAssistant isSpeaking={isAssistantSpeaking} text={assistantText} />

@@ -6,16 +6,24 @@ interface RegistrationModalProps {
   onClose: () => void;
   onLoginSuccess?: () => void;
   isInline?: boolean;
+  initialMode?: 'login' | 'register';
 }
 
 type AuthMode = 'login' | 'register' | 'success' | '2fa';
 
-const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, onLoginSuccess, isInline = false }) => {
-  const [mode, setMode] = useState<AuthMode>('register');
+const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, onLoginSuccess, isInline = false, initialMode = 'register' }) => {
+  const [mode, setMode] = useState<AuthMode>(initialMode);
   const [loading, setLoading] = useState(false);
   const [isHuman, setIsHuman] = useState(false);
   const [captchaLoading, setCaptchaLoading] = useState(false);
   const [twoFactorCode, setTwoFactorCode] = useState(['', '', '', '', '', '']);
+
+  // Reset mode if initialMode prop changes while modal is visible
+  useEffect(() => {
+    if (initialMode && (mode === 'login' || mode === 'register')) {
+      setMode(initialMode);
+    }
+  }, [initialMode]);
 
   if (!isOpen && !isInline) return null;
 
@@ -36,9 +44,11 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
     setTimeout(() => {
       setLoading(false);
       if (mode === 'register') {
-        setMode('success');
+        // Direct Login after registration
+        if (onLoginSuccess) onLoginSuccess();
+        onClose();
       } else if (mode === 'login') {
-        setMode('2fa'); // Move to 2FA step after successful credentials
+        setMode('2fa'); 
       }
     }, 1500);
   };
@@ -59,16 +69,10 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
     newCode[index] = value;
     setTwoFactorCode(newCode);
 
-    // Auto-focus next input
     if (value && index < 5) {
       const nextInput = document.getElementById(`2fa-${index + 1}`);
       nextInput?.focus();
     }
-  };
-
-  const handleEnterDashboard = () => {
-    if (onLoginSuccess) onLoginSuccess();
-    onClose();
   };
 
   const content = (
@@ -113,7 +117,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
             <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest cursor-pointer hover:text-teal-600">Resend Code</p>
           </form>
         </div>
-      ) : mode !== 'success' ? (
+      ) : (
         <div className="flex flex-col h-full">
           <div className="flex border-b border-slate-100">
             <button 
@@ -171,7 +175,6 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                 <input required type="password" minLength={8} className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl outline-none focus:ring-2 focus:ring-teal-500 transition-all text-sm font-medium" placeholder="••••••••" />
               </div>
 
-              {/* Identity Verification (Simulated reCAPTCHA) */}
               <div 
                 onClick={handleCaptcha}
                 className={`flex items-center gap-4 p-5 rounded-2xl border transition-all cursor-pointer ${isHuman ? 'bg-teal-50/50 border-teal-200' : 'bg-slate-50 border-slate-100 hover:border-slate-200'}`}
@@ -198,7 +201,7 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                   disabled={loading || !isHuman}
                   className="w-full bg-teal-950 text-white font-bold py-6 rounded-2xl uppercase tracking-[0.4em] text-[10px] shadow-2xl shadow-teal-950/20 hover:bg-teal-900 transition-all active:scale-[0.98] disabled:opacity-50"
                 >
-                  {loading ? 'Authenticating...' : (mode === 'register' ? 'Register Account' : 'Secure Sign In')}
+                  {loading ? 'Authenticating...' : (mode === 'register' ? 'Complete Registration' : 'Secure Sign In')}
                 </button>
               </div>
             </form>
@@ -209,20 +212,6 @@ const RegistrationModal: React.FC<RegistrationModalProps> = ({ isOpen, onClose, 
                <span>End-to-End Encrypted</span>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className={`${isInline ? 'py-20' : 'p-16'} text-center`}>
-          <div className="w-24 h-24 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center mx-auto mb-10 shadow-lg shadow-teal-600/10">
-            <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
-          </div>
-          <h2 className="text-4xl font-bold text-teal-950 mb-4 tracking-tight serif-heading">Profile Verified</h2>
-          <p className="text-slate-500 mb-12 text-lg font-light leading-relaxed max-w-sm mx-auto">Welcome to the inner circle of Nigerian healthcare transparency. Your subscriber account is active.</p>
-          <button 
-            onClick={handleEnterDashboard}
-            className="w-full max-w-xs bg-teal-950 text-white font-bold py-6 rounded-2xl uppercase tracking-[0.4em] text-[10px] shadow-xl active:scale-95 mx-auto"
-          >
-            Enter Dashboard
-          </button>
         </div>
       )}
     </div>
